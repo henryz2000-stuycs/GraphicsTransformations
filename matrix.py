@@ -20,6 +20,10 @@ def make_scale( x, y, z ):
            [0, 0, z, 0], \
            [0, 0, 0, 1] ]
     '''
+    m1 = ident(new_matrix)
+    m1[0][0] = x
+    m1[1][1] = y
+    m1[2][2] = z
     return m1
 
 def make_rotX( theta ):
@@ -29,6 +33,11 @@ def make_rotX( theta ):
            [math.sin(theta),    math.cos(theta), 1, 0], \
            [              0,                  0, 0, 1] ]
     '''
+    m1 = ident(new_matrix)
+    m1[1][0] = math.cos(theta)
+    m1[1][1] = -1 * math.sin(theta)
+    m1[2][0] = math.sin(theta)
+    m1[2][1] = math.cos(theta)
     return m1
 
 def make_rotY( theta ):
@@ -38,6 +47,11 @@ def make_rotY( theta ):
            [              0,                  0, 1, 0], \
            [              0,                  0, 0, 1] ]
     '''
+    m1 = ident(new_matrix)
+    m1[0][0] = math.cos(theta)
+    m1[0][1] = -1 * math.sin(theta)
+    m1[1][0] = math.sin(theta)
+    m1[1][1] = math.cos(theta)
     return m1
 
 def make_rotZ( theta ):
@@ -47,6 +61,11 @@ def make_rotZ( theta ):
            [              0,                  0, 1, 0], \
            [math.cos(theta), -1*math.sin(theta), 0, 1] ]
     '''
+    m1 = ident(new_matrix)
+    m1[0][0] = math.sin(theta)
+    m1[0][1] = math.cos(theta)
+    m1[3][0] = math.cos(theta)
+    m1[3][1] = -1 * math.sin(theta)
     return m1
 
 def print_matrix( matrix ):

@@ -8,7 +8,7 @@ The file follows the following format:
      Every command is a single character that takes up a line
      Any command that requires arguments must have those arguments in the second line.
      The commands are as follows:
-         line: add a line to the edge matrix - 
+     line: add a line to the edge matrix - 
 	    takes 6 arguemnts (x0, y0, z0, x1, y1, z1)
 	 ident: set the transform matrix to the identity matrix - 
 	 scale: create a scale matrix, 
@@ -32,4 +32,19 @@ The file follows the following format:
 See the file script for an example of the file format
 """
 def parse_file( fname, points, transform, screen, color ):
-    pass
+    points = new_matrix(4, 4)
+    f = open(fname, 'r')
+    lines = f.readlines()
+    for i in range(len(f.readlines())):
+        if lines[i] == "line":
+            coords = lines[i+1].split(" ")
+            add_edge(points, coords[0], coords[1], coords[2], coords[3], coords[4], coords[5])
+        elif lines[i] == "ident":
+            ident(transform)
+        elif lines[i] == "scale":
+            coords = lines[i+1].split(" ")
+            scale = make_scale(coords[0], coords[1], coords[2])
+            matrix_mult(scale, transform)
+        elif lines[i] == "move":
+            
+        
