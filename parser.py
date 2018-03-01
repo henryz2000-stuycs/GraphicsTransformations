@@ -35,16 +35,70 @@ def parse_file( fname, points, transform, screen, color ):
     points = new_matrix(4, 4)
     f = open(fname, 'r')
     lines = f.readlines()
-    for i in range(len(f.readlines())):
-        if lines[i] == "line":
+    #print lines
+    #print len(lines)
+    for i in range(len(lines)):
+        #print i
+        if lines[i] == "line\n":
+            print "==line=="
             coords = lines[i+1].split(" ")
-            add_edge(points, coords[0], coords[1], coords[2], coords[3], coords[4], coords[5])
-        elif lines[i] == "ident":
+            add_edge(points, int(coords[0]), int(coords[1]), int(coords[2]), int(coords[3]), int(coords[4]), int(coords[5]))
+        elif lines[i] == "ident\n":
+            print "==ident=="
             ident(transform)
-        elif lines[i] == "scale":
+            print "transform matrix"
+            print_matrix(transform)
+        elif lines[i] == "scale\n":
+            print "***scale***"
             coords = lines[i+1].split(" ")
-            scale = make_scale(coords[0], coords[1], coords[2])
+            scale = make_scale(float(coords[0]), float(coords[1]), float(coords[2]))
+            print "scale matrix"
+            print_matrix(scale)
             matrix_mult(scale, transform)
-        elif lines[i] == "move":
-            
+            print "transform matrix"
+            print_matrix(transform)
+        elif lines[i] == "move\n":
+            print "***move***"
+            coords = lines[i+1].split(" ")
+            translate = make_translate(int(coords[0]), int(coords[1]), int(coords[2]))
+            print "translate matrix"
+            print_matrix(translate)
+            print "transform matrix"
+            matrix_mult(translate, transform)
+        elif lines[i] == "rotate\n":
+            print "***rotate***"
+            coords = lines[i+1].split(" ")
+            if coords[0] == "x":
+                rotate = make_rotX(int(coords[1]))
+            elif coords[0] == "y":
+                rotate = make_rotY(int(coords[1]))
+            else:
+                rotate = make_rotZ(int(coords[1]))
+            print "rotate matrix"
+            print_matrix(rotate)
+            print "transform matrix"
+            matrix_mult(rotate, transform)
+        elif lines[i] == "apply\n":
+            print "==apply=="
+            print "transform matrix"
+            print_matrix(transform)
+            print "edge matrix"
+            print_matrix(points)
+            matrix_mult(transform, points)
+        elif lines[i] == "display\n":
+            print "==display=="
+            clear_screen(screen)
+            #print_matrix(points)
+            for row in range(len(points)):
+                for col in range(len(points[row])):
+                    points[row][col] = int(points[row][col])
+            print_matrix(points)
+            draw_lines(points, screen, color)
+            display(screen)
+        elif lines[i] == "save\n":
+            print "==save=="
+            imgname = lines[i+1]
+            save_extension(screen, imgname)
+        else:
+            pass
         

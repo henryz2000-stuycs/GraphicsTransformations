@@ -7,10 +7,12 @@ def make_translate( x, y, z ):
            [0, 0, 1, z], \
            [0, 0, 0, 1] ]
     '''
-    m1 = ident(new_matrix)
-    m1[0][3] = x
-    m1[1][3] = y
-    m1[2][3] = z
+    m1 = new_matrix(4, 4)
+    ident(m1)
+    m1[3][0] = x
+    m1[3][1] = y
+    m1[3][2] = z
+    #print_matrix(m1)
     return m1
 
 def make_scale( x, y, z ):
@@ -20,7 +22,8 @@ def make_scale( x, y, z ):
            [0, 0, z, 0], \
            [0, 0, 0, 1] ]
     '''
-    m1 = ident(new_matrix)
+    m1 = new_matrix(4, 4)
+    ident(m1)
     m1[0][0] = x
     m1[1][1] = y
     m1[2][2] = z
@@ -28,44 +31,47 @@ def make_scale( x, y, z ):
 
 def make_rotX( theta ):
     '''
-    m1 = [ [              1,                  0, 0, 0], \
-           [math.cos(theta), -1*math.sin(theta), 0, 0], \
-           [math.sin(theta),    math.cos(theta), 1, 0], \
-           [              0,                  0, 0, 1] ]
+    m1 = [ [1,                               0,                                    0, 0], \
+           [0, math.cos(theta * math.pi / 180), -1 * math.sin(theta * math.pi / 180), 0], \
+           [0, math.sin(theta * math.pi / 180),      math.cos(theta * math.pi / 180), 1], \
+           [0,                               0,                                    0, 1] ]
     '''
-    m1 = ident(new_matrix)
-    m1[1][0] = math.cos(theta)
-    m1[1][1] = -1 * math.sin(theta)
-    m1[2][0] = math.sin(theta)
-    m1[2][1] = math.cos(theta)
+    m1 = new_matrix(4, 4)
+    ident(m1)
+    m1[1][1] = math.cos(theta * math.pi / 180)
+    m1[2][1] = -1 * math.sin(theta * math.pi / 180)
+    m1[1][2] = math.sin(theta * math.pi / 180)
+    m1[2][2] = math.cos(theta * math.pi / 180)
     return m1
 
 def make_rotY( theta ):
     '''
-    m1 = [ [math.cos(theta), -1*math.sin(theta), 0, 0], \
-           [math.sin(theta),    math.cos(theta), 0, 0], \
-           [              0,                  0, 1, 0], \
-           [              0,                  0, 0, 1] ]
+    m1 = [ [     math.cos(theta * math.pi / 180), 0, math.sin(theta * math.pi / 180), 0], \
+           [                                   0, 1,                               0, 0], \
+           [                                   0, 0,                               1, 0], \
+           [-1 * math.sin(theta * math.pi / 180), 0, math.cos(theta * math.pi / 180), 1] ]
     '''
-    m1 = ident(new_matrix)
-    m1[0][0] = math.cos(theta)
-    m1[0][1] = -1 * math.sin(theta)
-    m1[1][0] = math.sin(theta)
-    m1[1][1] = math.cos(theta)
+    m1 = new_matrix(4, 4)
+    ident(m1)
+    m1[0][0] = math.cos(theta * math.pi / 180)
+    m1[2][0] = math.sin(theta * math.pi / 180)
+    m1[0][3] = -1 * math.sin(theta * math.pi / 180)
+    m1[2][3] = math.cos(theta * math.pi / 180)
     return m1
 
 def make_rotZ( theta ):
     '''
-    m1 = [ [math.sin(theta),    math.cos(theta), 0, 0], \
-           [              0,                  1, 0, 0], \
-           [              0,                  0, 1, 0], \
-           [math.cos(theta), -1*math.sin(theta), 0, 1] ]
+    m1 = [ [math.cos(theta * math.pi / 180), -1 * math.sin(theta * math.pi / 180), 0, 0], \
+           [math.sin(theta * math.pi / 180),      math.cos(theta * math.pi / 180), 0, 0], \
+           [                              0,                                    0, 1, 0], \
+           [                              0,                                    0, 0, 1] ]
     '''
-    m1 = ident(new_matrix)
-    m1[0][0] = math.sin(theta)
-    m1[0][1] = math.cos(theta)
-    m1[3][0] = math.cos(theta)
-    m1[3][1] = -1 * math.sin(theta)
+    m1 = new_matrix(4, 4)
+    ident(m1)
+    m1[0][0] = math.cos(theta * math.pi / 180)
+    m1[1][0] = -1 * math.sin(theta * math.pi / 180)
+    m1[0][1] = math.sin(theta * math.pi / 180)
+    m1[1][1] = math.cos(theta * math.pi / 180)
     return m1
 
 def print_matrix( matrix ):
@@ -112,3 +118,9 @@ def new_matrix(rows = 4, cols = 4):
         for r in range( rows ):
             m[c].append( 0 )
     return m
+
+'''
+m1 = new_matrix(4, 4)
+ident(m1)
+make_translate(100, 100, 0)
+'''
